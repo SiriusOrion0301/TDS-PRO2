@@ -99,6 +99,33 @@ def visualize_data(corr_matrix, outliers, df, output_dir):
 
     return heatmap_file, outliers_file, dist_plot_file
 
+def question_llm(prompt, context):
+    """Send a prompt to the LLM and return the generated response."""
+    api_url = "https://api.openai.com/v1/chat/completions"  # Update with your API endpoint
+    headers = {
+        "Authorization": f"Bearer {os.environ['OPENAI_API_KEY']}",  # Ensure your API key is set in the environment
+        "Content-Type": "application/json"
+    }
+
+    data = {
+        "model": "gpt-4o-mini",  # Specify the model you want to use
+        "messages": [
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": f"{prompt}\n{context}"}
+        ],
+        "max_tokens": 1000,
+        "temperature": 0.7
+    }
+
+    try:
+        response = requests.post(api_url, headers=headers, json=data)
+        response.raise_for_status()  # Raise an error for bad responses
+        story = response.json()['choices'][0]['message']['content'].strip()
+        return story
+    except Exception as e:
+        print(f"Error with LLM request: {e}")
+        return "Failed to generate story."
+
 def main(csv_file):
     print("Starting the analysis...")  # Debugging line
 
