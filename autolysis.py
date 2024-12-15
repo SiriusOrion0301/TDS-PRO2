@@ -103,7 +103,7 @@ def question_llm(prompt, context):
     """Send a prompt to the LLM and return the generated response."""
     api_url = "https://api.openai.com/v1/chat/completions"  # Update with your API endpoint
     headers = {
-        "Authorization": f"Bearer {os.environ['OPENAI_API_KEY']}",  # Ensure your API key is set in the environment
+        "Authorization": f"Bearer {os.environ['AIPROXY_TOKEN']}",  # Ensure your API key is set in the environment
         "Content-Type": "application/json"
     }
 
