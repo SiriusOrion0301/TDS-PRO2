@@ -97,7 +97,7 @@ def question_llm(prompt, context):
     """Send a prompt to the LLM and return the generated response."""
     api_url = "https://api.openai.com/v1/chat/completions"
     headers = {
-        "Authorization": f"Bearer {os.environ['OPENAI_API_KEY']}",
+        "Authorization": f"Bearer {os.environ['AIPROXY_TOKEN']}",
         "Content-Type": "application/json"
     }
     data = {
