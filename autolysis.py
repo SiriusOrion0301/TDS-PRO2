@@ -126,6 +126,25 @@ def question_llm(prompt, context):
         print(f"Error with LLM request: {e}")
         return "Failed to generate story."
 
+def create_readme(summary_stats, missing_values, corr_matrix, outliers, output_dir):
+    """Create a README file summarizing the analysis results."""
+    readme_file = os.path.join(output_dir, "README.md")
+    with open(readme_file, 'w') as f:
+        f.write("# Data Analysis Report\n\n")
+        f.write("## Summary Statistics\n")
+        f.write(f"{summary_stats}\n\n")
+        f.write("## Missing Values\n")
+        f.write(f"{missing_values}\n\n")
+        f.write("## Correlation Matrix\n")
+        f.write(f"{corr_matrix}\n\n")
+        f.write("## Outliers\n")
+        f.write(f"{outliers}\n\n")
+        f.write("## Notes\n")
+        f.write("This report summarizes the analysis performed on the dataset.\n")
+    
+    print(f"README file created at: {readme_file}")
+    return readme_file
+
 def main(csv_file):
     print("Starting the analysis...")  # Debugging line
 
