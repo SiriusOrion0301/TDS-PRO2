@@ -1,80 +1,67 @@
-# Automated Data Analysis Report
+# Automated Data Analysis with Autolysis
 
-## Introduction
-This is an automated analysis of the dataset, providing summary statistics, visualizations, and insights from the data.
+## Project Overview
+Autolysis is a Python-based automated data analysis tool that leverages the capabilities of GPT-4o-Mini. It processes CSV datasets, performs statistical and exploratory analyses, generates visualizations, and crafts data-driven narratives. The script dynamically analyzes any dataset, minimizes token usage, and outputs insightful Markdown reports with supporting PNG visualizations, ensuring a comprehensive data storytelling experience.
 
-## Summary Statistics
-The summary statistics of the dataset are as follows:
+## Key Features
 
-| Statistic    | Value |
-|--------------|-------|
-| overall - Mean | 3.05 |
-| overall - Std Dev | 0.76 |
-| overall - Min | 1.00 |
-| overall - 25th Percentile | 3.00 |
-| overall - 50th Percentile (Median) | 3.00 |
-| overall - 75th Percentile | 3.00 |
-| overall - Max | 5.00 |
-|--------------|-------|
-| quality - Mean | 3.21 |
-| quality - Std Dev | 0.80 |
-| quality - Min | 1.00 |
-| quality - 25th Percentile | 3.00 |
-| quality - 50th Percentile (Median) | 3.00 |
-| quality - 75th Percentile | 4.00 |
-| quality - Max | 5.00 |
-|--------------|-------|
-| repeatability - Mean | 1.49 |
-| repeatability - Std Dev | 0.60 |
-| repeatability - Min | 1.00 |
-| repeatability - 25th Percentile | 1.00 |
-| repeatability - 50th Percentile (Median) | 1.00 |
-| repeatability - 75th Percentile | 2.00 |
-| repeatability - Max | 3.00 |
-|--------------|-------|
+- **Automated Analysis**: 
+  - Conducts summary statistics, outlier detection, and correlation analysis.
+  - Automatically handles missing values and provides insights into data quality.
 
-## Missing Values
-The following columns contain missing values, with their respective counts:
+- **Visual Insights**: 
+  - Generates clear, informative charts, including correlation heatmaps, outlier bar charts, and distribution plots.
+  - Visualizations are saved as PNG files for easy sharing and reporting.
 
-| Column       | Missing Values Count |
-|--------------|----------------------|
-| date | 99 |
-| language | 0 |
-| type | 0 |
-| title | 0 |
-| by | 262 |
-| overall | 0 |
-| quality | 0 |
-| repeatability | 0 |
+- **Data Narratives**: 
+  - Crafts meaningful stories based on findings, providing context and insights derived from the analysis.
+  - The narrative is generated using advanced AI, ensuring a human-like storytelling approach.
 
-## Outliers Detection
-The following columns contain outliers detected using the IQR method (values beyond the typical range):
+- **Extensibility**: 
+  - Works seamlessly with any CSV file, making it adaptable to various datasets.
+  - Users can easily modify the script to include additional analyses or visualizations as needed.
 
-| Column       | Outlier Count |
-|--------------|---------------|
-| overall | 1216 |
-| quality | 24 |
-| repeatability | 0 |
+- **User-Friendly**: 
+  - Simple command-line interface for running analyses.
+  - Outputs a comprehensive Markdown report (`README.md`) summarizing the analysis, visualizations, and narratives.
 
-## Correlation Matrix
-Below is the correlation matrix of numerical features, indicating relationships between different variables:
+## Getting Started
 
-![Correlation Matrix](correlation_matrix.png)
+### Prerequisites
+- Python 3.9 or higher
+- Required Python packages (install via pip):
+  ```bash
+  pip install pandas seaborn matplotlib numpy scipy openai scikit-learn requests python-dotenv
+  ```
 
-## Outliers Visualization
-This chart visualizes the number of outliers detected in each column:
+### Setup
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/yourusername/autolysis.git
+   cd autolysis
+   ```
 
-![Outliers](outliers.png)
+2. **Create a `.env` File**: In the same directory, create a `.env` file and add your AIPROXY token:
+   ```
+   AIPROXY_TOKEN=your_actual_token_here
+   ```
 
-## Distribution of Data
-Below is the distribution plot of the first numerical column in the dataset:
+### Usage
+To run the analysis, use the following command:
+    uv run autolysis.py <path_to_your_dataset.csv>
 
-![Distribution](distribution_.png)
+### Output
+- The script will generate:
+  - A `README.md` file containing the analysis summary, visualizations, and narratives.
+  - PNG files for each visualization in the current directory.
 
 ## Conclusion
-The analysis has provided insights into the dataset, including summary statistics, outlier detection, and correlations between key variables.
-The generated visualizations and statistical insights can help in understanding the patterns and relationships in the data.
+Autolysis makes data analysis intuitive, scalable, and efficient through intelligent automation and AI-powered insights. Whether you're a data scientist, analyst, or just someone looking to gain insights from data, Autolysis provides a powerful tool to streamline your analysis process.
 
-## Data Story
-## Story
-Failed to generate story.
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+- Special thanks to the developers of the libraries used in this project, including Pandas, Seaborn, Matplotlib, and OpenAI.
+
+
