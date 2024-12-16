@@ -38,7 +38,7 @@ if not AIPROXY_TOKEN:
 def analyze_data(df):
     """Analyze the dataset and return summary statistics, missing values, and correlation matrix."""
     print("Analyzing the data...")  # Debugging line
-    summary_stats = df.describe(include='all')  # Include all columns for summary
+    summary_stats = df.describe()
     missing_values = df.isnull().sum()
     numeric_df = df.select_dtypes(include=[np.number])
     corr_matrix = numeric_df.corr() if not numeric_df.empty else pd.DataFrame()
@@ -63,7 +63,8 @@ def visualize_data(corr_matrix, outliers, df):
     plt.figure(figsize=(10, 8))
     sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5)
     plt.title('Correlation Matrix')
-    plt.savefig('correlation_matrix.png')  # Save in the current directory
+    heatmap_file = 'correlation_matrix.png'  # Save in the current directory
+    plt.savefig(heatmap_file)
     plt.close()
 
     # Check if there are outliers to plot
@@ -74,10 +75,12 @@ def visualize_data(corr_matrix, outliers, df):
         plt.title('Outliers Detection')
         plt.xlabel('Columns')
         plt.ylabel('Number of Outliers')
-        plt.savefig('outliers.png')  # Save in the current directory
+        outliers_file = 'outliers.png'  # Save in the current directory
+        plt.savefig(outliers_file)
         plt.close()
     else:
         print("No outliers detected to visualize.")
+        outliers_file = None  # No file created for outliers
 
     # Generate a distribution plot for the first numeric column
     numeric_columns = df.select_dtypes(include=[np.number]).columns
@@ -86,12 +89,14 @@ def visualize_data(corr_matrix, outliers, df):
         plt.figure(figsize=(10, 6))
         sns.histplot(df[first_numeric_column], kde=True, color='blue', bins=30)
         plt.title(f'Distribution of {first_numeric_column}')
-        plt.savefig('distribution.png')  # Save in the current directory
+        dist_plot_file = 'distribution.png'  # Save in the current directory
+        plt.savefig(dist_plot_file)
         plt.close()
     else:
-        print("No numeric columns to plot.")
+        dist_plot_file = None  # No numeric columns to plot
 
     print("Visualizations generated.")  # Debugging line
+    return heatmap_file, outliers_file, dist_plot_file
 
 def create_readme(summary_stats, missing_values, corr_matrix, outliers):
     """Create a README file summarizing the analysis results."""
@@ -202,14 +207,14 @@ def main(csv_file):
     try:
         df = pd.read_csv(csv_file, encoding='ISO-8859-1')
         print("Dataset loaded successfully!")  # Debugging line
-    except Exception as e:
+    except UnicodeDecodeError as e:
         print(f"Error reading file: {e}")
         return
 
     summary_stats, missing_values, corr_matrix = analyze_data(df)
     outliers = detect_outliers(df)
 
-    visualize_data(corr_matrix, outliers, df)
+    heatmap_file, outliers_file, dist_plot_file = visualize_data(corr_matrix, outliers, df)
 
     story = question_llm("Generate a nice and creative story from the analysis", 
                          context=f"Dataset Analysis:\nSummary Statistics:\n{summary_stats}\n\nMissing Values:\n{missing_values}\n\nCorrelation Matrix:\n{corr_matrix}\n\nOutliers:\n{outliers}")
@@ -220,8 +225,7 @@ def main(csv_file):
             with open(readme_file, 'a') as f:
                 f.write("## Story\n")
                 f.write(f"{story}\n")
-
-            print(f"Analysis complete! Results saved in the current directory.")
+            print(f"Analysis complete! Results saved in '{os.path.dirname(readme_file)}' directory.")
             print(f"README file: {readme_file}")
         except Exception as e:
             print(f"Error appending story to README.md: {e}")
